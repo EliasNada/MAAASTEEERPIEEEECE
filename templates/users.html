@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Users</title>
+    <style>
+      a {
+        text-decoration: none;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        padding: 20px;
+        grid-gap: 50px;
+        margin: 0 auto;
+      }
+      .grid-item {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+      }
+
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+      }
+
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .container {
+        padding: 2px 16px;
+      }
+      @media only screen and (max-width: 940px) {
+        .grid-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          padding: 10px;
+          grid-gap: 50px;
+          margin: 0 auto;
+        }
+      }
+      img {
+        width: 50%;
+        height: 220px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Our Users</h1>
+    <div class="grid-container">
+      {% for acc in accs %}
+      <a href="user/{{acc[0]}}">
+        <div class="grid-item card">
+          <img src="{{acc[1]}}" />
+          <div class="container">
+            <h3>{{acc[0]}}</h3>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{{data[0]}}</title>
+    <script>
+      function filesize(elem) {
+        document.cookie = `filesize=${elem.files[0].size}`;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>{{data[0]}}</h1>
+    <img src="{{data[1]}}" />
+    {% if data[0] == session['username'] %}
+    <form action="/img" method="POST" enctype="multipart/form-data">
+      <label for="img">Profile Photo</label>
+      <input type="file" name="img" oninput="filesize(this);" />
+      <input type="submit" value="Upload" />
+    </form>
+    {% endif %}
+  </body>
+</html>

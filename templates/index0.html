@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Wellcome To Foodie!</title>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages() %} {% for message in messages %}
+    <h3>{{message}}</h3>
+    {% endfor %} {% endwith %}
+    <h1>Welcome</h1>
+    {% if session['logged_in'] == True %}
+    <a href="/user/{{session['username']}}">{{session["username"]}}</a>
+    <br />
+    <a href="/logout">Logout</a>
+    <br />
+    <a href="/loves">What you love!</a>
+    {% else %}
+    <a href="/signup">Sign up</a>
+    <br />
+    <a href="/signin">Login</a>
+    {% endif %}
+    <br />
+    <a href="/add">Add Post</a>
+    <br />
+    <a href="/posts">Posts</a>
+    <br />
+    <a href="/users">Our Users</a>
+  </body>
+</html>

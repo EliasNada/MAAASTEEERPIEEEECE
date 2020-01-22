@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Sign Up</title>
+    <style>
+      input {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      input[type="submit"] {
+        width: 100%;
+        background-color: #4caf50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+
+      form {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        width: 30%;
+        margin: 0 auto;
+      }
+      .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+      }
+      input:disabled,
+      input:disabled:hover {
+        width: 100%;
+        background-color: #cccccc;
+        color: #666666;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: not-allowed;
+      }
+      small {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="margin: 0 auto;"><p>Sign Up</p></h1>
+    <form action="/regist" method="POST">
+      <label for="username">User Name</label>
+      <input type="text" name="username" required />
+      <label for="psw">Password</label>
+      <input
+        type="password"
+        name="psw"
+        id="psw"
+        required
+        onkeyup="checkPass()"
+      />
+      <small id="strongPassword"
+        >Password Must be at least 6 characters long!</small
+      >
+      <label for="rpt-psw">Confirm Password</label>
+      <input
+        type="password"
+        name="passwordRpt"
+        id="passwordRpt"
+        required
+        onkeyup="checkPass()"
+      />
+      <small id="match">Passwords Don't Match</small>
+      <input type="submit" id="submit" value="Sign Up" disabled />
+      <div class="container signin">
+        <p>Already have an account? <a href="/signin">Sign in</a>.</p>
+      </div>
+    </form>
+    <script>
+      var password = document.getElementById("psw");
+      var passwordRpt = document.getElementById("passwordRpt");
+      var match = document.getElementById("match");
+      var strongPassword = document.getElementById("strongPassword");
+      var submit = document.getElementById("submit");
+
+      function checkPass() {
+        if (password.value.length < 6) {
+          strongPassword.style.display = "block";
+          submit.disabled = true;
+        } else {
+          strongPassword.style.display = "none";
+          submit.disabled = false;
+        }
+        if (password.value != passwordRpt.value) {
+          submit.disabled = true;
+          match.style.display = "block";
+        } else {
+          submit.disabled = false;
+          match.style.display = "none";
+        }
+      }
+
+      password.onkeyup = checkPass;
+      passwordRpt.onkeyup = checkPass;
+    </script>
+  </body>
+</html>
