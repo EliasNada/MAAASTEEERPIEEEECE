@@ -14,8 +14,10 @@ import datetime
 
 
 app = Flask(__name__)
-app.config["IMAGE_UPLOADS"] = r"C:\Users\Elias\Desktop\Masterpiece\static\img"
-app.config["POST_UPLOADS"] = r"C:\Users\Elias\Desktop\Masterpiece\static\posts"
+
+app.config["IMAGE_UPLOADS"] = app.root_path+'\static\img'
+app.config["POST_UPLOADS"] = app.root_path+'\static\posts'
+
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
 app.config["MAX_IMAGE_FILESIZE"] =  500000
 app.secret_key = "XD"
