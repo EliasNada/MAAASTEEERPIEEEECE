@@ -144,6 +144,7 @@
     </style>
   </head>
   <body>
+    <a href="/">Home</a>
     <div style="text-align: center;"><h1>POSTS</h1></div>
     <div class="container">
       {% for xd in data %}
@@ -153,9 +154,6 @@
           <img src="{{xd[1]}}" class="img" onclick="show(this)" />
         </div>
         <h5>{{xd[2]}}</h5>
-        <button onclick='love(url = "/love", data ="{{[session,xd[3]]}}")'>
-          Love
-        </button>
       </div>
       {% endfor %}
     </div>
@@ -184,24 +182,6 @@
       span.onclick = function() {
         modal.style.display = "none";
       };
-      async function love(url, data) {
-        // Default options are marked with *
-        const response = await fetch(url, {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          mode: "cors", // no-cors, *cors, same-origin
-          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: "same-origin", // include, *same-origin, omit
-          headers: {
-            "Content-Type": "application/json"
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          redirect: "follow", // manual, *follow, error
-          referrerPolicy: "no-referrer", // no-referrer, *client
-          body: data // body data type must match "Content-Type" header
-        });
-        // this.style.backGroundColor = "red";
-        return await response.json(); // parses JSON response into native JavaScript objects
-      }
     </script>
   </body>
 </html>

@@ -10,23 +10,17 @@
     {% with messages = get_flashed_messages() %} {% for message in messages %}
     <h3>{{message}}</h3>
     {% endfor %} {% endwith %}
-    <h1>Welcome</h1>
+    <center><h1>Foodie Back-End</h1></center>
     {% if session['logged_in'] == True %}
     <a href="/user/{{session['username']}}">{{session["username"]}}</a>
     <br />
     <a href="/logout">Logout</a>
-    <br />
-    <a href="/loves">What you love!</a>
     {% else %}
-    <a href="/signup">Sign up</a>
-    <br />
     <a href="/signin">Login</a>
     {% endif %}
     <br />
-    <a href="/add">Add Post</a>
+    <a href="/posts">Food</a>
     <br />
-    <a href="/posts">Posts</a>
-    <br />
-    <a href="/users">Our Users</a>
+    <a href="/users">Admins</a>
   </body>
 </html>

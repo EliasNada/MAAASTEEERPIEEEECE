@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Edit</title>
+    <title>edit Food</title>
     <style>
       input {
         width: 100%;
@@ -63,15 +63,21 @@
     </script>
   </head>
   <body>
+    <center><h1>Edit Food</h1></center>
     <a href="/">Home</a>
-    <form action="/addpost" method="POST" enctype="multipart/form-data">
-      <label for="name">Food Name</label>
+    <form action="/editpost" method="POST" enctype="multipart/form-data">
+      <label for="name">Name</label>
       <input type="text" name="name" />
-      <label for="desc">Food Description</label>
+      <br />
+      <label for="desc">Description</label>
       <textarea name="desc" cols="30" rows="10"></textarea>
-      <label for="img">Food Image</label>
+      <br />
+      <label for="name">Image</label>
       <input type="file" name="img" oninput="filesize(this);" />
-      <input type="submit" value="Add Post" />
+      <br />
+      <input type="hidden" value="{{post}}" name="post_id" />
+      <br />
+      <input type="submit" value="Update" />
     </form>
   </body>
 </html>

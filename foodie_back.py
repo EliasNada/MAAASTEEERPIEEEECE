@@ -51,13 +51,22 @@ def allowed_image_filesize(filesize):
 @app.route("/",methods=["POST","GET"])
 def index():
     if request.method == "GET":
-        return render_template("index.html")
-
+        try:
+            session['username']
+            return render_template("index0.html")
+        except:
+            return redirect("signin")
+        
 
 @app.route("/signup",methods=["POST","GET"])
 def signup():
     if request.method == "GET":
-        return render_template("signup.html")
+        try:
+            session['username']
+            return render_template("signup.html")
+        except:
+            flash("login -_-")
+            return redirect("signin")
     else:
         flash("Already Logged In")
         return redirect(url_for('index'))
@@ -80,11 +89,15 @@ def regist():
 @app.route("/signin",methods=["POST","GET"])
 def signin():
     if request.method == "GET":
-        return render_template("signin.html")
+        try:
+            session["username"]
+            flash("Already Logged In")
+            return redirect(url_for('index'))
+        except:
+            return render_template("signin.html")
     else:
         flash("Already Logged In")
         return redirect(url_for('index'))
-
 
 @app.route("/auth",methods=["POST","GET"])
 def auth():
@@ -114,6 +127,11 @@ def auth():
 @app.route("/user/<name>",methods=["POST","GET"])
 def user(name):
     if request.method == "GET":
+        try:
+            session['username']
+        except:
+            flash("login -_-")
+            return redirect("signin")
         with sql.connect("foodie.db") as con:
             try:
                 cur = con.cursor()
@@ -126,6 +144,11 @@ def user(name):
 
 @app.route("/users",methods=["POST","GET"])
 def users():
+    try:
+        session['username']
+    except:
+        flash("login -_-")
+        return redirect("signin")
     with sql.connect("foodie.db") as con:
         cur = con.cursor()
         cur.execute("select username,img from users order by random()")
@@ -135,6 +158,11 @@ def users():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
+    try:
+        session['username']
+    except:
+        flash("login -_-")
+        return redirect("signin")
     session.clear()
     flash("Logged Out")
     return redirect(url_for('index'))
@@ -185,46 +213,85 @@ def addpost():
                 filename = str(datetime.datetime.now().strftime("%f"))+'.'+image.filename.rsplit(".", 1)[1]
                 image.save(os.path.join(app.config["POST_UPLOADS"], filename))
                 desc=request.form["desc"]
+                name=request.form["name"]
                 img=os.path.join("/static/posts/", filename)
                 with sql.connect("foodie.db") as con:
                     cur = con.cursor()
-                    cur.execute("insert into posts (post_img,post_desc,poster_id) values (?,?,?)",(img,desc,session['id']))
+                    cur.execute("insert into posts (post_name,post_img,post_desc,poster_id) values (?,?,?,?)",(name,img,desc,session["id"]))
                     con.commit()
                     return redirect("/")
 
 @app.route("/posts",methods=["GET","POST"])
 def posts():
     if request.method =="GET":
+        try:
+            session['username']
+        except:
+            flash("login -_-")
+            return redirect("signin")
         with sql.connect("foodie.db") as con:
             cur = con.cursor()
-            cur.execute("select username,post_img,post_desc,post_id from posts \
-                        inner join users on id=id \
-                        where poster_id=id")
+            cur.execute("select post_id,post_name,post_desc,post_img,username from posts \
+                        left join users on poster_id=id")
             data= cur.fetchall()
-            try:
-                return render_template("posts.html",data=data,session=session["id"])
-            except:
-                return render_template("posts0.html",data=data)
-
-@app.route("/love",methods=["GET","POST"])
-def love():
+            return render_template("foods.html",data=data)
+        
+@app.route("/delete",methods=["POST","GET"])
+def delete():
     if request.method == "POST":
-        req = request.get_json()
-#        print(req)
         with sql.connect("foodie.db") as con:
+            try:
+                name=request.form['name']
+                cur = con.cursor()
+                cur.execute("delete from posts where post_id=?",(name,))
+                return redirect("/posts")
+            except:
+                print("error")   
+                
+@app.route("/edit",methods=["POST","GET"])  
+def edit():
+    try:
+        session['username']
+    except:
+        flash("login -_-")
+        return redirect("signin")
+    post=request.form["post"]
+    return render_template("edit.html",post=post)
+                
+@app.route("/editpost",methods=["POST","GET"])
+def editpost():
+    if request.method == "POST":
+        if request.files:
+            image = request.files["img"]
+            if "filesize" in request.cookies:
+                if not allowed_image_filesize(request.cookies["filesize"]):
+                    return "Filesize exceeded maximum limit"
+            if image.filename == "":
+                return "No filename"
+            if allowed_image(image.filename):
+                filename = str(datetime.datetime.now().strftime("%f"))+'.'+image.filename.rsplit(".", 1)[1]
+                image.save(os.path.join(app.config["POST_UPLOADS"], filename))
+                desc=request.form["desc"]
+                name=request.form["name"]
+                img=os.path.join("/static/posts/", filename)
+                post_id=request.form["post_id"]
+                with sql.connect("foodie.db") as con:
                     cur = con.cursor()
-                    cur.execute("insert if not exists into loves (user_id,post_id) values (?,?)",(req))
+                    cur.execute("update posts set post_name=?,post_img=?,post_desc=?,poster_id=? where post_id=?",(name,img,desc,session["id"],post_id))
                     con.commit()
-                    return True
-        
-        
-        
-        
-        res = make_response(jsonify(req), 200)
-        return res
-    else:
-        return "love love love GET"
-    
+                    return redirect("/posts")
+                
+
+
+@app.errorhandler(404)
+def notFound(error):
+    return render_template("404.html")
+
+@app.errorhandler(500)
+def xd(error):
+    return render_template("404.html")
+
+  
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8000)
