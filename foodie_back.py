@@ -281,7 +281,19 @@ def editpost():
                     con.commit()
                     return redirect("/posts")
                 
-
+                
+@app.route("/reservations",methods=["POST","GET"])  
+def reservations():
+    try:
+        session['username']
+    except:
+        flash("login -_-")
+        return redirect("signin")
+    with sql.connect("foodie.db") as con:
+        cur = con.cursor()
+        cur.execute("select * from reservations")
+        data= cur.fetchall()
+        return render_template("reservations.html",data=data)
 
 @app.errorhandler(404)
 def notFound(error):

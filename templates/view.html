@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>View</title>
+    <script
+      src="https://kit.fontawesome.com/2ea3b78bcd.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Roboto);
+      /*Just the background stuff */
+      span.s1 {
+        position: absolute;
+        top: 0;
+        font-size: 15rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: #3c4447;
+      }
+
+      span.s2 {
+        font-weight: 800;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 15rem;
+        text-transform: uppercase;
+        color: #3c4447;
+      }
+
+      /*My hum... body.. yeah.. */
+      body {
+        background-color: #353b3f;
+        font-family: "Roboto", sans-serif;
+        background: url("{{ url_for('static',filename='images/banner.jpg')}}")
+          no-repeat center top;
+      }
+
+      /* The card */
+      .card {
+        position: relative;
+        height: 450px;
+        width: 900px;
+        margin: 200px auto;
+        background-color: #fff;
+        -webkit-box-shadow: 10px 10px 93px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 10px 10px 93px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 10px 10px 93px 0px rgba(0, 0, 0, 0.75);
+      }
+
+      /* Image on the left side */
+      .thumbnail {
+        float: left;
+        position: relative;
+        left: 30px;
+        top: -30px;
+        height: 320px;
+        width: 530px;
+        -webkit-box-shadow: 10px 10px 60px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 10px 10px 60px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 10px 10px 60px 0px rgba(0, 0, 0, 0.75);
+        overflow: hidden;
+      }
+
+      /*object-fit: cover; */
+      /*object-position: center; */
+      img.left {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: auto;
+        width: 100%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+
+      /* Right side of the card */
+      .right {
+        margin-left: 590px;
+        margin-right: 20px;
+      }
+
+      h1 {
+        padding-top: 15px;
+        font-size: 1.3rem;
+        color: #4b4b4b;
+      }
+
+      .author {
+        background-color: #9ecaff;
+        height: 30px;
+        width: 110px;
+        border-radius: 20px;
+      }
+
+      .author > img {
+        padding-top: 5px;
+        margin-left: 10px;
+        float: left;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+      }
+
+      h2 {
+        padding-top: 8px;
+        margin-right: 6px;
+        text-align: center;
+        font-size: 0.8rem;
+      }
+
+      .separator {
+        margin-top: 10px;
+        border: 1px solid #c3c3c3;
+      }
+
+      p {
+        text-align: justify;
+        padding-top: 10px;
+        font-size: 0.95rem;
+        line-height: 150%;
+        color: #4b4b4b;
+      }
+
+      /* DATE of release */
+      h5 {
+        position: absolute;
+        left: 30px;
+        bottom: -110px;
+        font-size: 6rem;
+        color: #c3c3c3;
+      }
+
+      h6 {
+        position: absolute;
+        left: 30px;
+        bottom: -60px;
+        font-size: 2rem;
+        color: black;
+      }
+
+      /* Those futur buttons */
+      ul {
+        margin-left: 250px;
+      }
+
+      li {
+        display: inline;
+        list-style: none;
+        padding-right: 40px;
+        color: #7b7b7b;
+      }
+
+      /* Floating action button */
+      .fab {
+        position: absolute;
+        right: 50px;
+        bottom: -40px;
+        box-sizing: border-box;
+        padding-top: 18px;
+        background-color: #1875d0;
+        width: 80px;
+        height: 80px;
+        color: white;
+        text-align: center;
+        border-radius: 50%;
+        -webkit-box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 10px 10px 50px 0px rgba(0, 0, 0, 0.75);
+      }
+      .fab :hover {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="thumbnail">
+        <img
+          class="left"
+          src="https://cdn2.hubspot.net/hubfs/322787/Mychefcom/images/BLOG/Header-Blog/photo-culinaire-pexels.jpg"
+        />
+      </div>
+      <div class="right">
+        <h1>Your Reservation</h1>
+        <div class="author">
+          <h2>Name: {{i[0]}}</h2>
+        </div>
+        <div class="separator"></div>
+        <h3>E-mail: {{i[1]}}</h3>
+        <h3>Phone: {{i[2]}}</h3>
+        <h3>Number Of Persons: {{i[3]}}</h3>
+        <h3>Date: {{i[4]}}</h3>
+        <h3>Time: {{i[5]}}</h3>
+        <h3>Preffered Food: {{i[6]}}</h3>
+        <h3>Occasion: {{i[7]}}</h3>
+      </div>
+      <h5>❤️</h5>
+      <h6>Thank you for choosing us!</h6>
+      <div class="fab" onclick="home()">
+        <i class="fa fa-arrow-down fa-3x"> </i>
+      </div>
+    </div>
+    <script>
+      function home() {
+        return (window.location.href = "/");
+      }
+    </script>
+  </body>
+</html>
